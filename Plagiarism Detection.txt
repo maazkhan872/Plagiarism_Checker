@@ -1,0 +1,37 @@
+import spacy
+
+# Load the spacy language model for English
+language_model = spacy.load("en_core_web_sm")
+
+def calculate_text_similarity(text1, text2):
+    
+    doc1 = language_model(text1)
+    doc2 = language_model(text2)
+    return doc1.similarity(doc2)
+
+def evaluate_similarity(text_a, text_b, threshold=0.8):
+    
+    if not text_a.strip() or not text_b.strip():
+        raise ValueError("Error: One or both of the input texts are empty or consist only of whitespace.")
+    
+    similarity = calculate_text_similarity(text_a, text_b)
+    
+    if similarity >= threshold:
+        print(f"Similarity is high with a score of {similarity:.2f}. It exceeds the threshold of {threshold}.")
+    else:
+        print(f"Similarity score is {similarity:.2f}, which does not meet the threshold of {threshold}.")
+
+# Sample texts for similarity evaluation
+text_sample_1 = (
+    "Exploring the universe through telescopes has dramatically expanded our understanding of space. "
+    "From distant galaxies to the nuances of cosmic radiation, each observation contributes to the grand tapestry of "
+    "astronomical knowledge."
+)
+text_sample_2 = (
+    "Using telescopes to study the cosmos has profoundly changed our grasp of the universe. "
+    "Every new discovery, whether it’s about far-off galaxies or cosmic waves, adds a piece to the puzzle of our "
+    "knowledge about space."
+)
+
+# Perform similarity evaluation with a threshold of 0.6
+evaluate_similarity(text_sample_1, text_sample_2, threshold=0.7)
